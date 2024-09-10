@@ -1,0 +1,37 @@
+Client Folder: This is for the frontend development using react.js
+Server Folder: This is for the backend development using node.js + express
+Database: Using MySQL
+
+Run Server: npm start
+
+Database:
+ - In MySQL Create a Database for our project. The rest of the changes will be done through node.js + express
+
+Backend:
+- Install package.json and the others on server folder by: npm init
+  \-> This is practically like settings.py in Django 
+
+- Install required libraries by: npm install express cors mysql2
+  \-> Express is just part of backedn with node.js
+  \-> Cors is to link fronend and backend
+  \-> MySQL is the database 
+
+- For automatic server updates install: npm install nodemon
+  \-> Add this to the scripts tag in package.json: "start": "nodemon index.js"
+
+- For easier handling of MySQL database: npm insall sequelize sequelize-cli
+  \-> After: sequelize init
+  \-> The models folder is where out database tables models will be created. A seperate js file for each model.
+  \-> To link to database open configs folder and update database credientials.
+
+- To create urls we need to create a routes folder in server
+  \-> These files will create the route and handle post and get requests.
+
+
+Index.js File:
+- This is where we create the web app
+- Link all the routes from the routes folder
+- Add all the tables from the models folder
+
+Frontend:
+- To create react app: npx create-react-app .
