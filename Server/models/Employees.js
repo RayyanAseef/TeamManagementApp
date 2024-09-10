@@ -1,3 +1,5 @@
+// We make a new file in the models folder everytime we want to add a table to the database
+
 // Makes var accessable to other files
 module.exports = (sequelize, DataTypes) => {
     // Creating table
@@ -16,5 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
+    // Gives the created table to when its trying to be accessed
     return Employees;
 };
