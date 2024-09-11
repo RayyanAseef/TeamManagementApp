@@ -1,9 +1,11 @@
 // Creating app
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 // Allowing the use of json tool
 app.use(express.json());
+app.use(cors())
 
 // Retriving router information from routes folder
 const employeesRouter = require('./routes/Employees.js');

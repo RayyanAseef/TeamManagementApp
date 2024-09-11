@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const EmployeeForm = ({onFormSubmit}) => {
+const EmployeeForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         dateHired: '',
@@ -32,7 +32,6 @@ const EmployeeForm = ({onFormSubmit}) => {
                 dateHired: '',
                 position: ''
             })
-            onFormSubmit();
         }
 
         else {
