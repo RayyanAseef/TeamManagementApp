@@ -35,3 +35,4 @@ Index.js File:
 
 Frontend:
 - To create react app: npx create-react-app .
+- To have multiple routes: npm install react-router-dom
