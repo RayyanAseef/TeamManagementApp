@@ -1,17 +1,15 @@
 // Creating app
 const express = require('express');
 const app = express();
-const cors = require('cors');
 
 // Allowing the use of json tool
 app.use(express.json());
-app.use(cors())
 
 // Retriving router information from routes folder
 const employeesRouter = require('./routes/Employees.js');
 
 // Giving the app the router information
-app.use('/employees', employeesRouter)
+app.use('/api/employees', employeesRouter)
 
 // Retriving all the tables created in the models file
 const db = require('./models')

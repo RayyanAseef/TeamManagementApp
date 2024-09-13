@@ -17,6 +17,10 @@ h1 {
   border-radius: 10px;
 }
 
+.employeeDetails > * {
+  margin: 10px;
+}
+
 #formDiv {
   box-sizing: border-box;
   margin: 30px;

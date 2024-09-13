@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
+    // Employees.associate = (models) => {
+    //     Employees.hasMany(models.Something, {
+    //         onDelete: 'cascade',
+    //     })
+    // };
+
     // Gives the created table to when its trying to be accessed
     return Employees;
 };

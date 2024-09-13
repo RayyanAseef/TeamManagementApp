@@ -11,7 +11,7 @@ Backend:
 - Install package.json and the others on server folder by: npm init
   \-> This is practically like settings.py in Django 
 
-- Install required libraries by: npm install express cors mysql2
+- Install required libraries by: npm install express mysql2
   \-> Express is just part of backedn with node.js
   \-> Cors is to link fronend and backend
   \-> MySQL is the database 
@@ -36,3 +36,5 @@ Index.js File:
 Frontend:
 - To create react app: npx create-react-app .
 - To have multiple routes: npm install react-router-dom
+- To link backend with fronend got to package.json and add: "proxy": "/server/url"
+  \-> To access this when fetching you no longer have to write the whole url just the end part of the route like '/api/table'
