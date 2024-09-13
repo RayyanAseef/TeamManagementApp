@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         status: {
             type: DataTypes.BOOLEAN,
             allowNull: false
+        },
+        createdBy: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     });
 
@@ -23,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'meetingId',
             as: 'participants'
         });
+
+        Meetings.belongsTo(models.Workers, {
+            foreignKey: 'createdBy',
+            as: 'creator'
+        })
     };
 
     return Meetings;
