@@ -10,21 +10,33 @@ const { Employees } = require('../models');
 
 // Handles get requests at specified link
 router.get('/', async (req, res)=> {
+  try {
     const listOfEmplyees = await Employees.findAll();
     res.json(listOfEmplyees);
+  } catch (err) {
+    console.log("Error, Employees GET Request not working.", err)
+  }
 });
 
 router.get('/:id', async (req, res)=> {
-    const { id } = req.params;
+  const { id } = req.params;
+  try {
     const employee = await Employees.findOne({ where: { id: id }});
     res.json(employee);
+  } catch (err) {
+    console.log(`Error, Employees GET Request for Specific ID ${id} is not working.`, err)
+  }
 });
 
 // Handles post requests at specified link
 router.post('/', async (req, res)=> {
-    const post = req.body;
+  const post = req.body;
+  try {
     await Employees.create(post);
     res.json(post);
+  } catch (err) {
+    console.error(`Error, Employees POST Request for "${post}" is not working.`)
+  }
 });
 
 router.put('/:id', async (req, res) => {

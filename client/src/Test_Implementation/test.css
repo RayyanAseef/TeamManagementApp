@@ -1,0 +1,44 @@
+.App {
+
+}
+
+h1 {
+  text-align: center;
+}
+
+#employees{
+  display: flex;
+  justify-content: space-around;
+}
+
+.employeeDetails{
+  padding: 10px 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+employeeDetails > * {
+  margin: 10px;
+}
+
+#formDiv {
+  box-sizing: border-box;
+  margin: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#newEmployeeForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+#newEmployeeForm > * {
+  margin: 10px;
+}
