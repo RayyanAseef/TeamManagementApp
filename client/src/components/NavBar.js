@@ -1,8 +1,13 @@
-
 const NavBar = () => {
     return (
-        <div className="navbar">
-            <h1>This is the NavBar</h1>
+        <div id="nav">
+            <div id="navLeft">
+                <h2>Team Management App</h2>
+            </div>
+            <div id="navRight">
+                <button id="login">Log in</button>
+                <button id='signup'>Sign Up</button>
+            </div>
         </div>
     );
   };
