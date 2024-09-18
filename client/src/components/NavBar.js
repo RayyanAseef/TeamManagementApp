@@ -1,6 +1,6 @@
 const NavBar = () => {
     return (
-        <div id="nav">
+        <nav id="nav">
             <div id="navLeft">
                 <h2>Team Management App</h2>
             </div>
@@ -8,7 +8,7 @@ const NavBar = () => {
                 <button id="login">Log in</button>
                 <button id='signup'>Sign Up</button>
             </div>
-        </div>
+        </nav>
     );
   };
   

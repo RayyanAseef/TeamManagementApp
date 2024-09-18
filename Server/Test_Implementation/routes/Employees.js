@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router();
 
 // Retrieving the table we want to access
-const { Employees } = require('../models');
+const { Employees } = require('../../models');
 
 // Handles get requests at specified link
 router.get('/', async (req, res)=> {

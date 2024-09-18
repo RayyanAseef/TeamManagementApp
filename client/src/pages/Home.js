@@ -4,7 +4,7 @@ import Roles from '../Roles.png';
 
 function Home() {
     return (
-      <div id='main'>
+      <div id='homeContainer'>
         <div id="imageLeft"><img src={Security} alt=''/></div>
         <div id="imageCenter">
           <img src={Network} alt=''/>

@@ -7,8 +7,10 @@ app.use(express.json());
 
 // Retriving router information from routes folder
 // Giving the app the router information
-const employeesRouter = require('./routes/Employees.js');
-app.use('/api/employees', employeesRouter)
+// const employeesRouter = require('./routes/Employees.js');
+// app.use('/api/employees', employeesRouter)
+
+
 
 // Retriving all the tables created in the models file
 const db = require('./models')

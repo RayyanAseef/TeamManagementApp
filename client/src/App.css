@@ -1,3 +1,5 @@
+/* Universal CSS */
+
 * {
     margin: 0px;
     padding: 0px;
@@ -16,7 +18,14 @@ button:hover {
     color: white;
 }
 
-#nav {
+nav, footer {
+    box-shadow: 0px 0px 15px black;
+}
+
+/* Nav CSS */
+
+nav {
+    position: relative;
     box-sizing: border-box;
     padding: 20px 50px;
     display: flex;
@@ -24,67 +33,10 @@ button:hover {
     justify-content: space-between;
     background-color: #26272b;
     color: white;
-    box-shadow: 0px 0px 50px red;
 }
 
 #navRight > * {
     margin: 0px 10px;
-}
-
-#main {
-    box-sizing: border-box;
-    background-color: lightgray;
-    display: flex;
-    justify-content: space-between;
-}
-
-#imageLeft, #imageRight, #imageCenter {
-    width: 33%;
-}
-
-#imageLeft, #imageRight {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#imageLeft img, #imageRight img {
-    height: 50%;
-    max-width: 100%;
-    margin-top: 20%;
-}
-
-#imageCenter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#imageCenter img {
-    margin-top: 5%;
-    width: 110%;
-}
-
-#imageCenter h1 {
-    font-size: 3em;
-    margin-top: -15%;
-}
-
-#entryButtons {
-    display: flex;
-    box-sizing: border-box;
-    padding-top: 10%;
-    padding-bottom: 10%;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 0px 50px red;
-}
-
-#entryButtons button {
-    margin: 2%;
-    font-size: xx-large;
-    width: 200px;
 }
 
 /* Using Footer template from CopyPen user scanfcode */
@@ -95,6 +47,8 @@ button:hover {
 }
 
 .site-footer {
+    position: relative;
+    z-index: 2;
     background-color: #26272b;
     padding: 40px 0;
     color: #737373;
@@ -189,4 +143,112 @@ hr {
         justify-content: center;
     }
 }
+
+/* Home CSS */
+
+#homeContainer {
+    box-sizing: border-box;
+    background-color: lightgray;
+    display: flex;
+    justify-content: space-between;
+}
+
+#imageLeft, #imageRight, #imageCenter {
+    width: 33%;
+}
+
+#imageLeft, #imageRight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#imageLeft img, #imageRight img {
+    height: 50%;
+    max-width: 100%;
+    margin-top: 20%;
+}
+
+#imageCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#imageCenter img {
+    margin-top: 5%;
+    width: 110%;
+}
+
+#imageCenter h1 {
+    font-size: 3em;
+    margin-top: -15%;
+}
+
+#entryButtons {
+    display: flex;
+    box-sizing: border-box;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#entryButtons button {
+    margin: 2%;
+    font-size: xx-large;
+    width: 200px;
+}
+
+/* Dashboard CSS */
+
+#dashboardContainer {
+    display: flex;
+}
   
+#sidebar  {
+    box-sizing: border-box;
+    padding: 50px;
+    width: 15%;
+    background-color: rgb(196, 193, 193);
+    border-right: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#topSidebar, #bottomSidebar {
+    width: 100%;
+}
+
+#topSidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#topSidebar > * {
+    margin: 20px 0;
+}
+
+#sidebar button {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 1em;
+}
+
+#content {
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
+#headerRow {
+    box-sizing: border-box;
+    background-color: rgb(232, 232, 232);
+    width: 100%;
+    height: 10%;
+    border-bottom: 2px solid black;
+}
