@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         createdBy: {
             type: DataTypes.INTEGER,
             allowNull: false
-        }
+        },
     });
 
     Meetings.associate = (models) => {
