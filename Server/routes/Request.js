@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { Requests } = require('../models');
+const { Workers } = require('../models');
 
 // Add a row to the table
 router.post('/', async (req, res)=> {
@@ -17,7 +18,23 @@ router.post('/', async (req, res)=> {
 // Get all of the rows in the table
 router.get('/', async (req, res)=> {
     try {
-        const listOfRequests = await Requests.findAll();
+        const listOfRequests = await Requests.findAll({
+            attributes: {
+                exclude: ['requestTo', 'requestBy', 'createdAt', 'updatedAt']
+            },
+            include: [
+                {
+                    model: Workers,
+                    as: 'requestee',
+                    attributes: ['id', 'name']
+                },
+                {
+                    model: Workers,
+                    as: 'requested',
+                    attributes: ['id', 'name']
+                }
+            ]
+        });
         res.json(listOfRequests)
     } catch(err) {
         res.json("Couldn't Retrieve Requests")

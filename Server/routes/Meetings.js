@@ -17,7 +17,18 @@ router.post('/', async (req, res)=> {
 // Get all of the rows in the table
 router.get('/', async (req, res)=> {
     try {
-        const listOfMeetings = await Meetings.findAll();
+        const listOfMeetings = await Meetings.findAll({
+            attributes: {
+                exclude: ['createdBy', 'createdAt', 'updatedAt']
+            },
+            include: [
+                {
+                    model: Workers,
+                    as: 'creator',
+                    attributes: ['id', 'name']
+                }
+            ]
+        });
         res.json(listOfMeetings)
     } catch(err) {
         res.json("Couldn't Retrieve Meetings")

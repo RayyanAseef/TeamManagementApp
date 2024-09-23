@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { Messages } = require('../models');
+const { Workers } = require('../models');
 
 // Add a row to the table
 router.post('/', async (req, res)=> {
@@ -17,7 +18,23 @@ router.post('/', async (req, res)=> {
 // Get all of the rows in the table
 router.get('/', async (req, res)=> {
     try {
-        const listOfMessages = await Messages.findAll();
+        const listOfMessages = await Messages.findAll({
+            attributes: {
+                exclude: ['createdBy', 'sentTo', 'createdAt', 'updatedAt']
+            },
+            include: [
+                {
+                    model: Workers,
+                    as: 'from',
+                    attributes: ['id', 'name']
+                },
+                {
+                    model: Workers,
+                    as: 'to',
+                    attributes: ['id', 'name']
+                }
+            ]
+        });
         res.json(listOfMessages)
     } catch(err) {
         res.json("Couldn't Retrieve Messages")

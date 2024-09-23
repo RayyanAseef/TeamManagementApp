@@ -17,7 +17,11 @@ router.post('/', async (req, res)=> {
 // Get all of the rows in the table
 router.get('/', async (req, res)=> {
     try {
-        const listOfWorkers = await Workers.findAll();
+        const listOfWorkers = await Workers.findAll({
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        });
         res.json(listOfWorkers)
     } catch(err) {
         res.json("Couldn't Retrieve Workers")

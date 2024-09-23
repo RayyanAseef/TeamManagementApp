@@ -26,6 +26,7 @@ nav, footer {
 
 nav {
     position: relative;
+    z-index: 3;
     box-sizing: border-box;
     padding: 20px 50px;
     display: flex;
@@ -35,9 +36,21 @@ nav {
     color: white;
 }
 
-#navRight > * {
+#navRight > *, #navCenter > * {
     margin: 0px 10px;
 }
+
+#navCenter button {
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
+#navCenter button:hover {
+    box-shadow: 0px 0px 20px white;
+    background-color: white;
+    color: black;
+}  
 
 /* Using Footer template from CopyPen user scanfcode */
 
@@ -242,13 +255,62 @@ hr {
 
 #content {
     flex-grow: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #headerRow {
+    position: sticky;
+    top: 0;
     box-sizing: border-box;
     background-color: rgb(232, 232, 232);
     width: 100%;
     height: 10%;
     border-bottom: 2px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#coloumnName {
+    display: flex;
+    width: 10%;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px 0px;
+}
+
+#coloumnName:hover {
+    color:blue;
+    border-color: blue;
+}
+
+#list {
+    box-sizing: border-box;
+    padding: 3% 2%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item {
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: lightgray;
+    width: 100%;
+    height: 12vh;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.field {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

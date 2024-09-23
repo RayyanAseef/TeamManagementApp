@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { Tasks } = require('../models');
+const { Workers } = require('../models');
 
 // Add a row to the table
 router.post('/', async (req, res)=> {
@@ -17,7 +18,23 @@ router.post('/', async (req, res)=> {
 // Get all of the rows in the table
 router.get('/', async (req, res)=> {
     try {
-        const listOfTasks = await Tasks.findAll();
+        const listOfTasks = await Tasks.findAll({
+            attributes: {
+                exclude: ['assignedBy', 'assignedTo', 'createdAt', 'updatedAt']
+            },
+            include: [
+                {
+                    model: Workers,
+                    as: 'assignee',
+                    attributes: ['id', 'name']
+                },
+                {
+                    model: Workers,
+                    as: 'assigner',
+                    attributes: ['id', 'name']
+                }
+            ]
+        });
         res.json(listOfTasks)
     } catch(err) {
         res.json("Couldn't Retrieve Tasks")
