@@ -405,7 +405,7 @@ hr {
     font-size: x-large;
 }
 
-input[type=text], input[type=password], input[type=date] {
+.FieldContainer input[type=text], .FieldContainer input[type=password], .FieldContainer input[type=date] {
     background-color: #1A2226;
     border: none;
     border-bottom: 2px solid #0DB8DE;

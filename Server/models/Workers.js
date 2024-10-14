@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'requestTo',
             as: 'requestsReceived'
         });
+    
         Workers.hasMany(models.Requests, {
             foreignKey: 'requestBy',
             as: 'requestsSent'
@@ -50,6 +51,12 @@ module.exports = (sequelize, DataTypes) => {
         Workers.hasMany(models.Messages, {
             foreignKey: 'sentTo',
             as: 'messagesReceived' 
+        });
+
+        Workers.hasOne(models.UserIdentification, {
+            foreignKey: 'worker',
+            onDelete: 'CASCADE', // Ensures the associated UserIdentification is deleted when a Worker is deleted
+            as: 'userIdentification'
         });
     };
     return Workers;

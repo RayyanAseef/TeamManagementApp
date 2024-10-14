@@ -32,7 +32,7 @@ router.get('/:id', async (req, res)=> {
 router.post('/', async (req, res)=> {
   const post = req.body;
   try {
-    await Employees.create(post);
+    await Employeecs.create(post);
     res.json(post);
   } catch (err) {
     console.error(`Error, Employees POST Request for "${post}" is not working.`)

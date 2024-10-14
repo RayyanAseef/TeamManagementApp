@@ -1,5 +1,8 @@
 // Creating app
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
 const app = express();
 const { Op } = require('sequelize');
 
@@ -49,31 +52,34 @@ const getModelFields = (model, workers) => {
   
     return obj;
 };
-  
-
-app.use('/api/models/:modelName', async (req, res)=> {
-    const {modelName} = req.params;
-    const model = models[modelName];
-    let workers;
-    if (modelName == 'Requests') {
-      workers = await Workers.findAll({where: {position: 'Manager'}});
-    } else if (modelName == 'Tasks') {
-      workers = await Workers.findAll({where: {position: { [Op.ne]: 'Manager'}}});
-    } else {
-      workers = await Workers.findAll();
-    }
-    if (model) {
-        res.json(getModelFields(model, workers))
-    } else {
-        res.json(modelName)
-    }
-})
 
 // Allowing the use of json tool
 app.use(express.json());
+app.use(cookieParser());
+
+const SECRET_ACCESS_TOKEN = 'your_access_secret';
+const SECRET_REFRESH_TOKEN = 'your_refresh_secret';
 
 // Retriving router information from routes folder
 // Giving the app the router information
+
+app.use('/api/models/:modelName', async (req, res)=> {
+  const {modelName} = req.params;
+  const model = models[modelName];
+  let workers;
+  if (modelName == 'Requests') {
+    workers = await Workers.findAll({where: {position: 'Manager'}});
+  } else if (modelName == 'Tasks') {
+    workers = await Workers.findAll({where: {position: { [Op.ne]: 'Manager'}}});
+  } else {
+    workers = await Workers.findAll();
+  }
+  if (model) {
+      res.json(getModelFields(model, workers))
+  } else {
+      res.json(modelName)
+  }
+})
 
 const workerRouter = require('./routes/Workers.js')
 app.use('/api/workers', workerRouter)
