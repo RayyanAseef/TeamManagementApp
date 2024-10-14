@@ -3,6 +3,7 @@ import './App.css';
 // import EmployeeFormPage from './Test_Implementation/pages/EmployeeFormPage';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import AuthPage from './pages/AuthPage';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}></Route>
             <Route path="/dashboard" element={<Dashboard navHeight={navHeight}/>} />
+            <Route path="/auth" element={<AuthPage navHeight={navHeight}/>} />
           </Routes>
         </div>
         <Footer/>

@@ -52,6 +52,5 @@ module.exports = (sequelize, DataTypes) => {
             as: 'messagesReceived' 
         });
     };
-
     return Workers;
 };

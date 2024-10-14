@@ -52,6 +52,33 @@ nav {
     color: black;
 }  
 
+#form {
+    position: absolute;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 50px;
+    background-color: rgb(231, 230, 230);
+    min-width: 40%;
+    right: 30%;
+    top: 20vh;
+    padding: 1% 5%;
+    box-shadow: 0px 0px 20px gray;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#form > * {
+    width: 80%;
+    margin: 20px 0px;
+}
+
+.formField {
+    width: 100%;
+}
+
 /* Using Footer template from CopyPen user scanfcode */
 
 .container {
@@ -246,11 +273,17 @@ hr {
     margin: 20px 0;
 }
 
-#sidebar button {
+.categoryBtns {
     box-sizing: border-box;
     width: 100%;
     padding: 10px 20px;
     font-size: 1em;
+}
+
+.categoryBtns.selected {
+    background-color: black;
+    color: white;
+    border-color: white;
 }
 
 #content {
@@ -269,17 +302,19 @@ hr {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 0% 2%;
 }
 
 #coloumnName {
+    flex: 1 1 0;
     display: flex;
-    width: 10%;
     align-items: center;
     justify-content: center;
     background-color: white;
     border: 2px solid black;
     border-radius: 10px;
     padding: 10px 0px;
+    margin: 0px 50px;
 }
 
 #coloumnName:hover {
@@ -299,7 +334,7 @@ hr {
 .item {
     border: 2px solid black;
     border-radius: 20px;
-    background-color: lightgray;
+    background-color: rgba(211, 211, 211, 0.422);
     width: 100%;
     height: 12vh;
     margin-top: 2%;
@@ -309,8 +344,117 @@ hr {
 }
 
 .field {
-    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex: 1 1 0;
+    padding: 0px 40px;
+}
+
+/* Login Page */
+
+#AuthPage {
+    font-family: 'Roboto', sans-serif;
+    background: rgba(34, 45, 50, 0.952);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#AuthFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1A2226;
+    color: White;
+    width: 40%;
+    padding: 2% 0px;
+    justify-content: space-around;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+#AuthForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#FormTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.FieldContainer {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-bottom: 50px;
+}
+
+.FieldLabel {
+    font-size: 10px;
+    color: #6C6C6C;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.FieldInput {
+    font-size: x-large;
+}
+
+input[type=text], input[type=password], input[type=date] {
+    background-color: #1A2226;
+    border: none;
+    border-bottom: 2px solid #0DB8DE;
+    font-weight: bold;
+    color: #ECF0F5;
+    padding-right: 40px; 
+    position: relative;
+}
+
+/* Hide the default calendar icon while keeping its functionality */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer; /* Ensure it's still clickable */
+}
+
+/* Add your custom icon */
+input[type="date"]::before {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url('Calender_Icon.png'); 
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    pointer-events: none; 
+}
+
+input:focus {
+    outline: none;
+}
+
+#AuthBtn {
+    border-color: #0DB8DE;
+    background-color: transparent;
+    color: #0DB8DE;
+    border-radius: 0px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+#AuthBtn:hover {
+    background-color: #0DB8DE;
+    color: white;
 }
