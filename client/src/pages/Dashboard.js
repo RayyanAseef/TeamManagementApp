@@ -23,47 +23,55 @@ const categoryURLs = {
     }
 };
 
-function Dashboard({ navHeight }) {
+function Dashboard({ navHeight, user }) {
     const queryParameters = new URLSearchParams(window.location.search);
     const initialCategory = queryParameters.get('id') ? queryParameters.get('id') : 0;
 
     const [categoryId, setCategoryId] = useState(initialCategory);
     const [list, setList] = useState([]);
-    const [labels, setLabels] = useState([])
+    const [listStatus, setListStatus] = useState(null)
+    const [labels, setLabels] = useState([]);
     const [cachedData, setCachedData] = useState({});
 
     const dashboardHeight = useMemo(() => `calc(100vh - ${navHeight}px)`, [navHeight]);
 
     useEffect(() => {
         const fetchData = async () => {
+
             if (cachedData[categoryId]) {
                 setList(cachedData[categoryId].content);
                 setLabels(cachedData[categoryId].label)
+                setListStatus(200); 
                 return;
             }
 
             try {
-                const resContent = await fetch(categoryURLs[categoryId].content);
-                const jsonContent = await resContent.json();
-                setList(jsonContent);
-
-                const resLabels = await fetch(categoryURLs[categoryId].labels);
-                const jsonLabels = await resLabels.json();
-                setLabels(jsonLabels);
-                
-                setCachedData((prevData) => ({ ...prevData, [categoryId]: { label: jsonLabels, content: jsonContent } }));
+                const [resContent, resLabels] = await Promise.all([
+                    fetch(categoryURLs[categoryId].content),
+                    fetch(categoryURLs[categoryId].labels)
+                ]);
+        
+                let jsonContent = await resContent.json();
+                let jsonLabels = await resLabels.json();
+        
+                if (resContent.status === 200 && resLabels.status === 200) {
+                    setList(jsonContent);
+                    setLabels(jsonLabels);
+                    setCachedData((prevData) => ({
+                        ...prevData,
+                        [categoryId]: { label: jsonLabels, content: jsonContent }
+                    }));
+                    setListStatus(200);
+                } else {
+                    setListStatus(resContent.status);
+                }
             } catch (err) {
                 console.error("Error fetching list + labels.");
             }
         };
 
-        const categorybtns = document.getElementsByClassName('categoryBtns');
-        Array.from(categorybtns).forEach((btn, index) => {
-            btn.className = (categoryId == index)? 'categoryBtns selected': 'categoryBtns';
-        });
-
         fetchData();
-    }, [categoryId, cachedData]);
+    }, [categoryId]);
 
     const changeCategory = useCallback((event) => {
         setCategoryId(event.target.id);
@@ -94,13 +102,13 @@ function Dashboard({ navHeight }) {
         <div id="dashboardContainer" style={{ height: dashboardHeight }}>
             <div id="sidebar">
                 <div id="topSidebar">
-                    <button className='categoryBtns' id="0" onClick={changeCategory}>Tasks</button>
-                    <button className='categoryBtns' id="1" onClick={changeCategory}>Requests</button>
-                    <button className='categoryBtns' id="2" onClick={changeCategory}>Meetings</button>
-                    <button className='categoryBtns' id="3" onClick={changeCategory}>Workers</button>
+                    <button className={`categoryBtns ${categoryId == 0 ? 'selected' : ''}`}  id="0" onClick={changeCategory}>Tasks</button>
+                    <button className={`categoryBtns ${categoryId == 1 ? 'selected' : ''}`}  id="1" onClick={changeCategory}>Requests</button>
+                    <button className={`categoryBtns ${categoryId == 2 ? 'selected' : ''}`}  id="2" onClick={changeCategory}>Meetings</button>
+                    {(user.position === 'Manager')? <button className={`categoryBtns ${categoryId == 3 ? 'selected' : ''}`}  id="3" onClick={changeCategory}>Workers</button>: null}
                 </div>
                 <div id="bottomSidebar">
-                    <button className='categoryBtns' id="4" onClick={changeCategory}>Messages</button>
+                    <button className={`categoryBtns ${categoryId == 4 ? 'selected' : ''}`}  id="4" onClick={changeCategory}>Messages</button>
                 </div>
             </div>
             <div id="content">
@@ -113,22 +121,26 @@ function Dashboard({ navHeight }) {
                         ) : null
                     ))}
                 </div>
-                <div id="list">
-                    {list.map((item, itemIndex) => (
-                        <div className="item" key={itemIndex}>
-                            {Object.keys(item).map((key, keyIndex) => (
-                                key !== 'id' && key !== 'description' && typeof item[key] != 'object'? (
-                                    <div key={keyIndex} className="field">
-                                        <h4>{typeof item[key] == 'boolean'? item[key] ? 'Done' : 'Ongoing': (key=='meetingDate')? formatDateTime(item[key]): item[key]}</h4>
-                                    </div>
-                                ) : typeof item[key] == 'object'?
-                                    <div key={keyIndex} className="field">
-                                        <h4>{item[key].name}</h4>
-                                    </div>: null
-                            ))}
-                        </div>
-                    ))}
-                </div>
+                {(listStatus == null)
+                ? <div style={{display: 'flex', justifyContent: 'center'}}><h1>Loading.....</h1></div>
+                : (listStatus == 200)
+                    ?<div id="list">
+                        {list.map((item, itemIndex) => (
+                            <div className="item" key={itemIndex}>
+                                {Object.keys(item).map((key, keyIndex) => (
+                                    key !== 'id' && key !== 'description' && typeof item[key] != 'object'? (
+                                        <div key={keyIndex} className="field">
+                                            <h4>{typeof item[key] == 'boolean'? item[key] ? 'Done' : 'Ongoing': (key=='meetingDate')? formatDateTime(item[key]): item[key]}</h4>
+                                        </div>
+                                    ) : typeof item[key] == 'object'?
+                                        <div key={keyIndex} className="field">
+                                            <h4>{item[key].name}</h4>
+                                        </div>: null
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                    : <div style={{display: 'flex', justifyContent: 'center'}}><h1>Status {listStatus}</h1></div>}
             </div>
         </div>
     );

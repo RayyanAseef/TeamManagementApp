@@ -22,7 +22,7 @@ function AuthPage({ navHeight }) {
 
     let json = await response.json();
 
-    if (json.message === "Logged In") {
+    if (json.auth) {
       window.location.href = "./dashboard";
     } else {
       setFormData({
@@ -95,7 +95,7 @@ function AuthPage({ navHeight }) {
   const updateFormData = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
-  
+
   return (
     <div id="AuthPage" style={{ height: dashboardHeight }}>
       <div id="AuthFormContainer">

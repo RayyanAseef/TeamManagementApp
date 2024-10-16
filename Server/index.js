@@ -1,10 +1,11 @@
 // Creating app
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 
 const app = express();
 const { Op } = require('sequelize');
+
+const authenticateToken = require('./Middleware/authenticateToken.js')
 
 const {Tasks, Requests, Meetings, Workers, Messages, UserIdentification} = require('./models')
 
@@ -57,9 +58,6 @@ const getModelFields = (model, workers) => {
 app.use(express.json());
 app.use(cookieParser());
 
-const SECRET_ACCESS_TOKEN = 'your_access_secret';
-const SECRET_REFRESH_TOKEN = 'your_refresh_secret';
-
 // Retriving router information from routes folder
 // Giving the app the router information
 
@@ -82,19 +80,19 @@ app.use('/api/models/:modelName', async (req, res)=> {
 })
 
 const workerRouter = require('./routes/Workers.js')
-app.use('/api/workers', workerRouter)
+app.use('/api/workers', authenticateToken, workerRouter)
 
 const taskRouter = require('./routes/Tasks.js');
-app.use('/api/tasks', taskRouter);
+app.use('/api/tasks', authenticateToken, taskRouter);
 
 const requestRouter = require('./routes/Request.js');
-app.use('/api/requests', requestRouter);
+app.use('/api/requests', authenticateToken, requestRouter);
 
 const meetingRouter = require('./routes/Meetings.js');
-app.use('/api/meetings', meetingRouter);
+app.use('/api/meetings', authenticateToken, meetingRouter);
 
 const messageRouter = require('./routes/Messages.js');
-app.use('/api/messages', messageRouter);
+app.use('/api/messages', authenticateToken, messageRouter);
 
 const userIdentificationRouter = require('./routes/UserIdentification.js');
 app.use('/api/useridentification', userIdentificationRouter);

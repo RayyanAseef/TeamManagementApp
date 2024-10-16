@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import ProtectedRoute from './Middleware/ProtectedRoute';
 
 function App() {
   const [navHeight, setNavHeight] = useState(0)
@@ -23,8 +24,8 @@ function App() {
         <div style={{minHeight: '100vh'}}>
           <NavBar/>
           <Routes>
-            <Route path='/' element={<Home/>}></Route>
-            <Route path="/dashboard" element={<Dashboard navHeight={navHeight}/>} />
+            <Route path='/' element={<Home/>}/>
+            <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} navHeight={navHeight}/>} />
             <Route path="/auth" element={<AuthPage navHeight={navHeight}/>} />
           </Routes>
         </div>
