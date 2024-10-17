@@ -23,6 +23,17 @@ const categoryURLs = {
     }
 };
 
+const getUserFilteredList = (user, list)=> {
+    let newList = []
+    list.forEach(item => {
+        Object.values(item).map((fieldValue)=> {
+            if (fieldValue.id == user.id && fieldValue.name == user.name) {newList.push(item)}
+        })
+    });
+
+    return newList;
+}
+
 function Dashboard({ navHeight, user }) {
     const queryParameters = new URLSearchParams(window.location.search);
     const initialCategory = queryParameters.get('id') ? queryParameters.get('id') : 0;
@@ -52,6 +63,8 @@ function Dashboard({ navHeight, user }) {
                 ]);
         
                 let jsonContent = await resContent.json();
+                if (categoryId != 3 && categoryId != 2) {jsonContent = getUserFilteredList(user, jsonContent); }
+
                 let jsonLabels = await resLabels.json();
         
                 if (resContent.status === 200 && resLabels.status === 200) {
