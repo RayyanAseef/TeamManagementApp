@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
+import fetchWithAuth from "../Middleware/refreshWithAuth";
 
 const categoryURLs = {
     0: { 
@@ -58,7 +59,7 @@ function Dashboard({ navHeight, user }) {
 
             try {
                 const [resContent, resLabels] = await Promise.all([
-                    fetch(categoryURLs[categoryId].content),
+                    fetchWithAuth(categoryURLs[categoryId].content),
                     fetch(categoryURLs[categoryId].labels)
                 ]);
         

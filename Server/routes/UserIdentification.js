@@ -48,7 +48,7 @@ router.post('/login', async (req, res) => {
         const refreshToken = jwt.sign(
             { id: worker.id, username: user.username, name: worker.name, position: worker.position, dateHired: worker.dateHired },
             SECRET_REFRESH_TOKEN,
-            { expiresIn: '15m' }
+            { expiresIn: '20m' }
         );
 
         // Set tokens in HTTP-only Cookies
@@ -56,14 +56,14 @@ router.post('/login', async (req, res) => {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict',
-            maxAge: 5 * 60 * 1000 // 5 minutes
+            maxAge: 20  * 60 * 1000 // 5 minutes
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict',
-            maxAge: 15 * 60 * 1000 // 15 minutes
+            maxAge: 20 * 60 * 1000 // 20 minutes
         });
 
         return res.status(200).json({ auth: true, message: 'Login successful' });
@@ -107,6 +107,13 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.post('/logout', async (req, res)=> {
+    res.clearCookie('accessToken', { path: '/', httpOnly: true, sameSite: 'Strict'});
+    res.clearCookie('refreshToken', { path: '/', httpOnly: true, sameSite: 'Strict'});
+
+    return res.status(200).json({message: "Successfully Logged out"})
+})
+
 // Verify token
 router.get('/verify-token', async (req, res) => {
     const token = req.cookies.accessToken;
@@ -123,6 +130,34 @@ router.get('/verify-token', async (req, res) => {
         return res.status(200).json({ message: "Access Token Valid", user: user });
     });
 });
+
+router.get('/refresh', async (req, res)=> {
+    const token = req.cookies.refreshToken;
+    if (!token) {
+        return res.status(401).json({message: "No Token Found"})
+    }
+
+    jwt.verify(token, SECRET_REFRESH_TOKEN, (err, user)=> {
+        if (err) {
+            res.status(403).json({message: "Invalid or Expired Token"})
+        }
+
+        const accessToken = jwt.sign(
+            { id: user.id, username: user.username, name: user.name, position: user.position },
+            SECRET_ACCESS_TOKEN,
+            {expiresIn: "5m"}
+        )
+
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: true,
+            maxAge: 20 * 60 * 1000
+        })
+
+        return res.status(200).json({message: "Successfully Refreshed Access Token"})
+    })
+})
 
 // Get all of the rows in the table
 router.get('/', async (req, res) => {
@@ -144,67 +179,5 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: "Couldn't Retrieve User Identifications", error: err.message });
     }
 });
-
-module.exports = router;
-
-// Add a row to the table
-// router.post('/', async (req, res) => {
-//     try {
-//         const post = req.body;
-//         const hashedPassword = await bcrypt.hash(post.Password, 10)
-//         await UserIdentification.create({username: post.Username, password: hashedPassword, worker: post.Worker}); // Singular model name
-//         res.json("User Identification Added");
-//     } catch (err) {
-//         res.json({ message: "Unable to add User Identification", error: err.message });
-//     }
-// });
-
-// Delete one of the rows in the table
-// router.delete('/:id', async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         await UserIdentification.destroy({ where: { id: id } }); // Singular model name
-//         const listOfUserIdentifications = await UserIdentification.findAll(); // Singular model name
-//         res.json(listOfUserIdentifications);
-//     } catch (err) {
-//         res.json({ message: `Couldn't Destroy User Identification with the id: ${id}`, error: err.message });
-//     }
-// });
-
-// Get one of the rows in the table
-// router.get('/:id', async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         const userIdentification = await UserIdentification.findOne({ 
-//             where: { id: id },
-//             attributes: {
-//                 exclude: ['createdAt', 'updatedAt', 'worker']
-//             },
-//             include: [
-//                 {
-//                     model: Workers,
-//                     as: "workerIdentification",
-//                     attributes: ['id', 'name']
-//                 }
-//             ]
-//         }); // Singular model name
-//         res.json(userIdentification);
-//     } catch (err) {
-//         res.json({ message: `Couldn't Find User Identification with the id: ${id}`, error: err.message });
-//     }
-// });
-
-// Edit one of the rows in the table
-// router.put('/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const updatedData = req.body;
-//     try {
-//         await UserIdentification.update(updatedData, { where: { id: id } }); // Singular model name
-//         const listOfUserIdentifications = await UserIdentification.findAll(); // Singular model name
-//         res.json(listOfUserIdentifications);
-//     } catch (err) {
-//         res.json({ message: `Couldn't Update User Identification with the id: ${id}`, error: err.message });
-//     }
-// });
 
 module.exports = router;

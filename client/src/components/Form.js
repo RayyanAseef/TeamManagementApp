@@ -8,7 +8,7 @@ const models = {
     'Messages': './api/messages'
 }
 
-const Form = ({ model, modelName, categoryId }) => {
+const Form = ({ model, modelName, categoryId, user }) => {
     const [formData, setFormData] = useState({}); // Start with an empty object
 
     // Use useEffect to initialize formData based on the model prop
@@ -16,7 +16,7 @@ const Form = ({ model, modelName, categoryId }) => {
         if (model && Object.keys(model).length > 0) {
             const initialFormData = Object.keys(model).reduce((acc, key) => {
                 if (model[key].fieldKey) {
-                    acc[model[key].fieldKey] = (key == 'assigner')? '2': (key == 'requestee')? '1': (key == 'creator')? '2' : (key == 'from')? '2' : '';
+                    acc[model[key].fieldKey] = (key == 'assigner' || key == 'requestee' || key == 'creator' || key == 'from')? user.id : '';
                 } else {
                     if (key != 'id') { acc[key] = '' };
                 }
@@ -38,6 +38,7 @@ const Form = ({ model, modelName, categoryId }) => {
 
     const postForm = async (event) => {
         event.preventDefault(); // Prevent default form submission
+        console.log(JSON.stringify(formData))
         let response = await fetch(models[modelName], {
             method: "POST",
             headers: {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Form from './Form'
 import { useLocation } from 'react-router-dom';
+import fetchWithAuth from '../Middleware/refreshWithAuth';
 
 const categoryURLs = {
     1: '/api/models/Tasks', 
@@ -39,7 +40,8 @@ const NavBar = () => {
 
     useEffect(()=> {
         const fetchData = async ()=> {
-            const response = await fetch('/api/useridentification/verify-token');
+            // const response = await fetch('/api/useridentification/verify-token');
+            const response = await fetchWithAuth('/api/useridentification/verify-token');
             if (response.status == 200) {
                 const json = await response.json();
                 setUser(json.user)
@@ -57,9 +59,29 @@ const NavBar = () => {
             setFormId(0);
         }
     }
-    
+
     const redirectAuth = (event)=> {
         window.location.href = `/auth?formMode=${(event.target.id == "logout")? "login": event.target.id}`;
+    }
+    
+    const logout = async (event)=> {
+        console.log("Attempting to logout........")
+        try {
+            const response = await fetch('/api/useridentification/logout', {
+                method: 'POST',
+                credentials: 'include'
+            })
+
+            if (response.ok) {
+                window.location.href = `/auth?formMode=${(event.target.id == "logout")? "login": event.target.id}`;
+            } else {
+                console.log('Failed to Logout')
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        console.log("Attempt Ended...........")
     }
 
     const redirectDashboard = (event)=> {
@@ -94,11 +116,11 @@ const NavBar = () => {
             ) : (
             <div id="navRight">
                 <button id="dashboard" onClick={redirectDashboard}>Dashboard</button>
-                <button id="logout" onClick={redirectAuth}>Logout</button>
+                <button id="logout" onClick={logout}>Logout</button>
             </div>
             )}
             {(formId != 0)? (
-                <Form categoryId={formId-1} model={model} modelName={categoryURLs[formId].split('/')[3]}/>
+                <Form user={user} categoryId={formId-1} model={model} modelName={categoryURLs[formId].split('/')[3]}/>
             ): null}
         </nav>
     );
